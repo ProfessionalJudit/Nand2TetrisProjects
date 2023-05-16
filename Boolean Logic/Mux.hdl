@@ -15,5 +15,24 @@ CHIP Mux {
 
     PARTS:
     // Put your code here:
+    /*
+    What i thought at first
+    And(a=b, b=sel, out=c1);
+    Not(in=sel, out=d1);
+    And(a=a, b=d1, out=c2);
+    Or(a=c1, b=c2, out=out);
+    */
+
+    //Fancy  Way
+    //Similar to a nand made or
+    //But since one of the nand inputs is always the selector (negated or not)...
+    //...it only works if they are the same
+    //For me it was harder to grasp that what i would like to admin
+    //tldr: It just (a nand !sel) nand (b nand sel)  
+    Not(in=sel, out=d1);        
+    Nand(a=a, b=d1, out=c1);
+    Nand(a=b, b=sel, out=c2);
+    Nand(a=c1, b=c2, out=out);
+    
     
 }
