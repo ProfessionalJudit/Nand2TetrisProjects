@@ -1,0 +1,27 @@
+
+CHIP Mux8Way{
+    
+    IN a, b, c, d, e, f, g, h, sel[3];
+    OUT out;
+
+    PARTS:
+    //Negated Sels
+    Not(in=sel[2], out=nsel3);
+    Not(in=sel[1], out=nsel2);
+    Not(in=sel[0], out=nsel1);
+
+    And4Way(a=nsel3, b=nsel2, c=nsel1, d=a, out=o1);
+    And4Way(a=nsel3, b=nsel2, c=sel[0], d=b, out=o2);
+    And4Way(a=nsel3, b=sel[1], c=nsel1, d=c, out=o3);
+    And4Way(a=nsel3, b=sel[1], c=sel[0], d=d, out=o4);
+    And4Way(a=sel[2], b=nsel2, c=nsel1, d=e, out=o5);
+    And4Way(a=sel[2], b=nsel2, c=sel[0], d=f, out=o6);
+    And4Way(a=sel[2], b=sel[1], c=nsel1, d=g, out=o7);
+    And4Way(a=sel[2], b=sel[1], c=sel[0], d=h, out=o8);
+    Or4Way(a=o1, b=o2, c=o3, d=o4, out=fo1);
+    Or4Way(a=o5, b=o6, c=o7, d=o8, out=fo2);
+    Or(a=fo1, b=fo2, out=out);
+    
+
+
+}

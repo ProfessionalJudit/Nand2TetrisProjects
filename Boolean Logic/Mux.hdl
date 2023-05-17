@@ -24,11 +24,8 @@ CHIP Mux {
     */
 
     //Fancy  Way
-    //Similar to a nand made or
-    //But since one of the nand inputs is always the selector (negated or not)...
-    //...it only works if they are the same
-    //For me it was harder to grasp that what i would like to admin
-    //tldr: It just (a nand !sel) nand (b nand sel)  
+    //Similar to a nand made xor
+    //But we change the nand in the middle for a not gate that negates the input on only one of the nands  
     Not(in=sel, out=d1);        
     Nand(a=a, b=d1, out=c1);
     Nand(a=b, b=sel, out=c2);
