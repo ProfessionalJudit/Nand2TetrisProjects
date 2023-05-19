@@ -1,0 +1,17 @@
+CHIP Counter{
+
+    IN in[16], control[3];
+    OUT out[16];
+
+    //Control 0 = load
+    //Cotnrol 1 = inc
+    //Control 3 = reset
+    PARTS:
+    Register(in=o4, load=control[0], out=o1,out=out);
+    Inc16(in=o1, out=o2);
+    Mux16(a=o2, b=false, sel=control[1], out=o3);
+    Mux16(a=o3, b=in, sel=control[2], out=o4);
+    
+    
+
+}
