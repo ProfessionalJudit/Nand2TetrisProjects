@@ -11,29 +11,37 @@
 
 // Put your code here.
 // D = dest, I = iterations
-// @R0
-// M=0
-// @R1
-// M=0
-// @R2
-// M=0
+@R0
+M=0
+@R1
+M=0
+@R2
+M=0
+@I
+M=0
+A=0
+D=0
 //Get iterations
 @R1
 D=M
 @I
 M=D
-@R0
-D=M
+
 (MULT)
-    //ADD R1 to R2
+    @R0
+    D=M
     @R2
     M=M+D
-
-    @I   //Loop
+    
+    @I
     D=M
-    M=M-1    
+
+    D=D-1
+    @I
+    M=D
     @MULT
-    D;JNE
+    D;JGT
+ 
 (END)
     @END
     0;JMP
