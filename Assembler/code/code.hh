@@ -4,10 +4,12 @@ class code
 private:
     /* data */
 public:
+    // Convert compute part from C instruction
     static std::string comp(std::string comp)
     {
+        // Bits
         std::string bits = "";
-        char C = ' ';
+        // Mark 12th bit
         if (comp.find("M") != -1)
         {
             bits.append("1");
@@ -16,7 +18,7 @@ public:
         {
             bits.append("0");
         }
-
+        // Yes, i put everything into and if statement, don't judge
         if (comp == "0")
         {
             bits.append("101010");
@@ -77,7 +79,7 @@ public:
         {
             bits.append("010011");
         }
-        else if (comp == "A-D" || comp == "A-D")
+        else if (comp == "A-D" || comp == "M-D")
         {
             bits.append("000111");
         }
@@ -96,9 +98,12 @@ public:
 
         return bits;
     }
+    // Convert dest part from C instruction
     static std::string dest(std::string dest)
     {
+        // Bits
         std::string bits = "";
+        // Set each bit depending of ocurrence
         if (dest.find("A") != -1)
         {
             bits.append("1");
@@ -125,6 +130,7 @@ public:
         }
         return bits;
     }
+    // Convert jump part from C instruction
     static std::string jump(std::string jump)
     {
         if (jump == "JGT")
@@ -150,6 +156,10 @@ public:
         if (jump == "JMP")
         {
             return "111";
+        }
+        if (jump == "JNE")
+        {
+            return "101";
         }
         return "000";
     }
