@@ -1,0 +1,41 @@
+     // //Get leftmost bit
+        // Not(in=instruction[15], out=loadains);
+        // //Get load bit from c instuction
+        // And(a=instruction[5], b=instruction[15], out=loadafromc);
+        
+        // Or(a=loadafromc, b=loadains, out=loada);
+        
+        // Mux(a=loadains, b=false, sel=loadafromc, out=aselector);
+        
+        // //A from alu or from rom? a = alu, b = rom
+        // Mux16(a=aluout, b=instruction, sel=aselector, out=avalue);
+        // ARegister(in=avalue, load=loada, out=areg,out=addressM);
+
+        // //Decode C
+        // //C = 111a cccc ccdd djjj.
+        // // a = what to do
+        // // cccccc = what to do
+        // // ddd = where to store it
+        // // jjj = jump if ...    
+
+        // // 1-Decode if we out to D
+
+        // DRegister(in=aluout, load=instruction[4], out=dreg);
+
+        // //Compute operation with value of A or Memory value
+        // Mux16(a=areg, b=inM, sel=instruction[12], out=cvalue);
+
+        // ALU(x=dreg, y=cvalue, 
+        // zx=instruction[11], nx=instruction[10],
+        // zy=instruction[9], ny=instruction[8], 
+        // f=instruction[7], no=instruction[6], 
+        // out=aluout,out=outM, zr=aluzero, ng=aluneg);
+
+        // And(a=instruction[15], b=instruction[3], out=writeM);
+
+
+        // Or(a=instruction[0], b=instruction[1], out=jumpor);
+        // Or(a=jumpor, b=instruction[2], out=dowejump);
+        // Not(in=dowejump, out=dewenotjump);
+        
+        // PC(in=areg, load=dowejump, inc=dewenotjump, reset=reset, out=pc);

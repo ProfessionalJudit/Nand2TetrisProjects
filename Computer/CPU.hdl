@@ -39,44 +39,49 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    //Placeholders
-
-
-    // Put your code here:
-    //Decode if A or C
-        //Get leftmost bit
-        Not(in=instruction[15], out=loadains);
-        //Get load bit from c instuction
-        And(a=instruction[5], b=instruction[15], out=loadafromc);
-        
-        Or(a=loadafromc, b=loadains, out=loada);
-        
-        Mux(a=loadains, b=false, sel=loadafromc, out=aselector);
-        
-        //A from alu or from rom? a = alu, b = rom
-        Mux16(a=aluout, b=instruction, sel=aselector, out=avalue);
-        ARegister(in=avalue, load=loada, out=areg);
-
-        //Decode C
-        //C = 111a cccc ccdd djjj.
-        // a = what to do
-        // cccccc = what to do
-        // ddd = where to store it
-        // jjj = jump if ...    
-
-        // 1-Decode if we out to D
-
-        DRegister(in=aluout, load=instruction[4], out=dreg);
-
-        //Compute operation with value of A or Memory value
-        Mux16(a=areg, b=inM, sel=instruction[12], out=cvalue);
-
-        ALU(x=dreg, y=cvalue, 
+    //Get Instructions
+    Not(in=instruction[15], out=AInstruction);
+    Not(in=AInstruction, out=CInstruction);
+    //If A
+    Mux16(a=aluout, b=instruction, sel=AInstruction, out=AValue);
+    //Load to A after C or after A
+    And(a=instruction[5], b=CInstruction, out=LoadToAFromC);
+    
+    Or(a=LoadToAFromC, b=AInstruction, out=LoadAReg);
+    ARegister(in=AValue, load=LoadAReg, out=ARegister,out[0..14]=addressM);
+    
+    
+    //If C
+    Mux16(a=ARegister, b=inM, sel=instruction[12], out=CValue);
+    ALU(x=DRegister, y=CValue,
         zx=instruction[11], nx=instruction[10],
-        zy=instruction[9], ny=instruction[8], 
-        f=instruction[7], no=instruction[6], 
+        zy=instruction[9], ny=instruction[8],
+        f=instruction[7], no=instruction[6],
         out=aluout,out=outM, zr=aluzero, ng=aluneg);
+    
+    //Load to D
+    And(a=CInstruction, b=instruction[4], out=loadD);
+    DRegister(in=aluout, load=loadD, out=DRegister);
+    //Load to M
+    And(a=instruction[15], b=instruction[3], out=writeM);
+    
+    //PC
+    //Jump
+    //Alu is positive num
+    Or(a=aluzero, b=aluneg, out=ZeroOrNeg);
+    Not(in=ZeroOrNeg, out=Positive);
 
-        Mux(a= false, b= true, sel=instruction[3], out=writeM);
-        
+    And(a=aluzero, b=instruction[1], out=jeq); //JEQ 
+    And(a=Positive, b=instruction[0], out=jgt); //JGT
+    And(a=aluneg, b=instruction[2], out=jlt); //JLT
+    
+    Or(a=jeq, b=jlt, out=jle); //JLE
+
+    
+    Or(a=jle, b=jgt, out=jumpins);
+
+    And(a=CInstruction, b=jumpins, out=Jump);
+    Not(in=Jump, out=Increment);
+    
+    PC(in=ARegister, load=Jump, inc=Increment, reset=reset, out[0..14]=pc);
 }
