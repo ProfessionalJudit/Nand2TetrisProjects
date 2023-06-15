@@ -26,7 +26,7 @@ bool SymbolTable::contains(std::string symbol)
     // Get an iterator pointing to the first element in the map
     std::map<std::string, int>::iterator it = symbols.begin();
     bool containsSymbol = false;
-    // Iterate through the map and
+    // Iterate through the map 
     while (it != symbols.end())
     {
         if (it->first == symbol)

@@ -78,11 +78,13 @@ void fisrtParse(parser &input, SymbolTable &st)
         {
             address++;
         }
+        //Add Labels on the st
         if (input.comandType() == "L_COMMAND")
         {
             st.addEntry(input.symbol(), address);
         }
     }
+    //Add predefined symbols
     std::string registers[16] =
         {
             "R0",
@@ -117,13 +119,16 @@ void fisrtParse(parser &input, SymbolTable &st)
 
 void secondParse(parser &input, SymbolTable &st)
 {
+    //Reset file pointer
     input.asmfile.clear();
     input.asmfile.seekg(0);
 
+    //Abaliable var addresses, starting at 0xF
     int nextAvaliable = 16;
     while (input.hasMoreCommands())
     {
         input.advance();
+        //Parse A instruction
         if (input.comandType() == "A_COMMAND")
         {
             bool is_var = false;
@@ -134,7 +139,7 @@ void secondParse(parser &input, SymbolTable &st)
                     is_var = true;
                 };
             }
-
+            //If it's not in the table, and it's a var, append it to the table
             if (!st.contains(input.symbol()) && is_var)
             {
                 st.addEntry(input.symbol(), nextAvaliable);
@@ -143,6 +148,7 @@ void secondParse(parser &input, SymbolTable &st)
         }
     }
 
+    //Clear file pointer again
     input.asmfile.clear();
     input.asmfile.seekg(0);
 
@@ -168,6 +174,8 @@ void secondParse(parser &input, SymbolTable &st)
         }
         else if (input.comandType() == "A_COMMAND")
         {
+            //Parse A
+            //If it's a var, translate the name into an address
             if (st.contains(input.symbol()))
             {
                 int value = std::stoi(st.GetAddress(input.symbol()));
@@ -176,7 +184,7 @@ void secondParse(parser &input, SymbolTable &st)
             }
             else
             {
-                // Parse A instruction
+                // Else, parse A the "old way"
                 int value = stoi(input.symbol());
                 line.append(std::bitset<16>(value).to_string());
                 output << line << std::endl;
@@ -186,11 +194,5 @@ void secondParse(parser &input, SymbolTable &st)
     }
     // Close file
     output.close();
-    // std::map<std::string,int>::iterator it = st.symbols.begin();
-    // while (it != st.symbols.end())
-    // {
-    //     std::cout << it->first << "\t" << it->second << std::endl;
-    //     it++;
-    // }
     
 }
