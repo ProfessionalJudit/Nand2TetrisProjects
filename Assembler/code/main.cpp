@@ -18,7 +18,6 @@ int main(int argc, char const *argv[])
     if (argc > 1)
     {
         input = new parser(argv[1]);
-        // symbollessParse(*input);
         fisrtParse(*input, *symbolTable);
         secondParse(*input, *symbolTable);
     }
@@ -32,40 +31,39 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-// Parse without symbols
-void symbollessParse(parser &input)
-{
-    // Open output file with pointer at the start
-    std::ofstream output("./output.hack");
-
-    // Iterate through file
-    while (input.hasMoreCommands())
-    {
-        // Current line
-        std::string line;
-        // Next line
-        input.advance();
-        // Get command type
-        if (input.comandType() == "C_COMMAND")
-        {
-            // Parse C instruction
-            line.append("111");
-            line.append(code::comp(input.comp()));
-            line.append(code::dest(input.dest()));
-            line.append(code::jump(input.jump()));
-        }
-        else if (input.comandType() == "A_COMMAND")
-        {
-            // Parse A instruction
-            int value = stoi(input.symbol());
-            line.append(std::bitset<16>(value).to_string());
-        }
-        // Input line into output file
-        output << line << std::endl;
-    }
-    // Close file
-    output.close();
-}
+// // Parse without symbols
+// void symbollessParse(parser &input)
+// {
+//     // Open output file with pointer at the start
+//     std::ofstream output("./output.hack");
+//     // Iterate through file
+//     while (input.hasMoreCommands())
+//     {
+//         // Current line
+//         std::string line;
+//         // Next line
+//         input.advance();
+//         // Get command type
+//         if (input.comandType() == "C_COMMAND")
+//         {
+//             // Parse C instruction
+//             line.append("111");
+//             line.append(code::comp(input.comp()));
+//             line.append(code::dest(input.dest()));
+//             line.append(code::jump(input.jump()));
+//         }
+//         else if (input.comandType() == "A_COMMAND")
+//         {
+//             // Parse A instruction
+//             int value = stoi(input.symbol());
+//             line.append(std::bitset<16>(value).to_string());
+//         }
+//         // Input line into output file
+//         output << line << std::endl;
+//     }
+//     // Close file
+//     output.close();
+// }
 
 void fisrtParse(parser &input, SymbolTable &st)
 {
