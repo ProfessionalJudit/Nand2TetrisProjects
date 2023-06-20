@@ -29,21 +29,4 @@ int main(int argc, char const *argv[])
 void testParse(parser &parser)
 {
     
-    std::stack<std::string> stack;
-
-    while (parser.hasMoreCommands())
-    {
-        parser.advance();
-        if (parser.comandType() == "C_PUSH")
-        {
-            if (parser.arg1() == "constant")
-            {
-                stack.push(std::to_string(parser.arg2()));
-            }
-        }
-        else if (parser.comandType() == "C_ARITHMETIC")
-        {
-            
-        }
-    }
 }
