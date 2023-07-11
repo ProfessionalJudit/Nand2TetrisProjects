@@ -106,8 +106,8 @@ std::string parser::arg1()
              comandType() == "C_POP")
     {
         std::string segment;
-        segment = currentCommand.substr(currentCommand.find(" "));
-        segment = segment.substr(0, segment.find(" "));
+        segment = currentCommand.substr(currentCommand.find(" ")+1);
+        segment = segment.substr(0,segment.find(" "));
         return segment;
     }
 }
@@ -121,7 +121,7 @@ int parser::arg2()
              comandType() == "C_POP")
     {
         std::string segment;
-        segment = currentCommand.substr(currentCommand.find(" ")+1);
+        segment = currentCommand.substr(currentCommand.find(" ") + 1);
         segment = segment.substr(segment.find(" "));
         return std::stoi(segment);
     }
