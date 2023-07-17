@@ -31,14 +31,37 @@ void testParse(parser &parser)
     // INIT
     // Init stack
     /*
-    @256
-    D=A
-    @SP
-    M=D
+    Global stack at:        256
+    Local segment at:       300
+    Argument segment at:    400
+    This segment at:        3000
+    That segment at:        3010
+    Temp at:                ---
     */
+    // SP
     std::cout << "@256" << std::endl;
     std::cout << "D=A" << std::endl;
     std::cout << "@SP" << std::endl;
+    std::cout << "M=D" << std::endl;
+    // LCL
+    std::cout << "@300" << std::endl;
+    std::cout << "D=A" << std::endl;
+    std::cout << "@LCL" << std::endl;
+    std::cout << "M=D" << std::endl;
+    // ARG
+    std::cout << "@400" << std::endl;
+    std::cout << "D=A" << std::endl;
+    std::cout << "@ARG" << std::endl;
+    std::cout << "M=D" << std::endl;
+    // THIS
+    std::cout << "@3000" << std::endl;
+    std::cout << "D=A" << std::endl;
+    std::cout << "@THIS" << std::endl;
+    std::cout << "M=D" << std::endl;
+    // THAT
+    std::cout << "@3010" << std::endl;
+    std::cout << "D=A" << std::endl;
+    std::cout << "@THAT" << std::endl;
     std::cout << "M=D" << std::endl;
     int counter = 0;
 
@@ -59,6 +82,350 @@ void testParse(parser &parser)
                 std::cout << "M=D" << std::endl;   // Save Value
                 std::cout << "@SP" << std::endl;   // Select SP
                 std::cout << "M=M+1" << std::endl; // Increase Stack Pointer
+            }
+            // Local segment
+            else if (parser.arg1() == "local")
+            {
+                // Get selected element from segment
+                // To do this we add LCL and the index into R13
+                // Then we can get the element from the generated address and store it into the stack
+
+                // Set R13 to index
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add LCL to R13
+                std::cout << "@LCL" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=M+D" << std::endl;
+
+                // Get element from R13 Address, save it into D
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+
+                // Push element into the global stack
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M+1" << std::endl;
+            }
+            // Argument segment
+            else if (parser.arg1() == "argument")
+            {
+                // Get selected element from segment
+                // To do this we add ARG and the index into R13
+                // Then we can get the element from the generated address and store it into the stack
+
+                // Set R13 to index
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add ARG to R13
+                std::cout << "@ARG" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=M+D" << std::endl;
+
+                // Get element from R13 Address, save it into D
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+
+                // Push element into the global stack
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M+1" << std::endl;
+            }
+            // This segment
+            else if (parser.arg1() == "this")
+            {
+                // Get selected element from segment
+                // To do this we add THIS and the index into R13
+                // Then we can get the element from the generated address and store it into the stack
+
+                // Set R13 to index
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add THIS to R13
+                std::cout << "@THIS" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=M+D" << std::endl;
+
+                // Get element from R13 Address, save it into D
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+
+                // Push element into the global stack
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M+1" << std::endl;
+            }
+            // That segment
+            else if (parser.arg1() == "that")
+            {
+                // Get selected element from segment
+                // To do this we add THAT and the index into R13
+                // Then we can get the element from the generated address and store it into the stack
+
+                // Set R13 to index
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add THAT to R13
+                std::cout << "@THAT" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=M+D" << std::endl;
+
+                // Get element from R13 Address, save it into D
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+
+                // Push element into the global stack
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M+1" << std::endl;
+            }
+            // Temp segment
+            else if (parser.arg1() == "temp")
+            {
+                // Get selected element from segment
+                // To do this we add R5 and the index into R13
+                // Then we can get the element from the generated address and store it into the stack
+
+                // Set R13 to index
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add Temp to R13
+                std::cout << "@5" << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=M+D" << std::endl;
+
+                // Get element from R13 Address, save it into D
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+
+                // Push element into the global stack
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M+1" << std::endl;
+            }
+        }
+        // POP
+        if (parser.comandType() == "C_POP")
+        {
+            // Local segment
+            if (parser.arg1() == "local")
+            {
+                // R13 Will contain the value to pop into the segement
+                // R14 Will contain the segment index, then we'll add LCL to it to get the correct address
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M-1" << std::endl;
+
+                // Get value from the global stack, store it into R13
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Get LCL segment index, store it into R14
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add LCL To R14 to get the correct address
+                std::cout << "@LCL" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=M+D" << std::endl; // Now R14 is pointing to LCL + Index
+
+                // Get value from R13, and store it into the address marked at R14
+                std::cout << "@R13" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "A=M" << std::endl; // Pointing to Segment + index
+                std::cout << "M=D" << std::endl;
+            }
+            // Argument segment
+            else if (parser.arg1() == "argument")
+            {
+                // R13 Will contain the value to pop into the segement
+                // R14 Will contain the segment index, then we'll add ARG to it to get the correct address
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M-1" << std::endl;
+
+                // Get value from the global stack, store it into R13
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Get ARG segment index, store it into R14
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add ARG To R14 to get the correct address
+                std::cout << "@ARG" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=M+D" << std::endl; // Now R14 is pointing to ARG + Index
+
+                // Get value from R13, and store it into the address marked at R14
+                std::cout << "@R13" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "A=M" << std::endl; // Pointing to Segment + index
+                std::cout << "M=D" << std::endl;
+            }
+            // This segment
+            else if (parser.arg1() == "this")
+            {
+                // R13 Will contain the value to pop into the segement
+                // R14 Will contain the segment index, then we'll add THIS to it to get the correct address
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M-1" << std::endl;
+
+                // Get value from the global stack, store it into R13
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Get THIS segment index, store it into R14
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add THIS To R14 to get the correct address
+                std::cout << "@THIS" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=M+D" << std::endl; // Now R14 is pointing to THIS + Index
+
+                // Get value from R13, and store it into the address marked at R14
+                std::cout << "@R13" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "A=M" << std::endl; // Pointing to Segment + index
+                std::cout << "M=D" << std::endl;
+            }
+            // That segment
+            else if (parser.arg1() == "that")
+            {
+                // R13 Will contain the value to pop into the segement
+                // R14 Will contain the segment index, then we'll add THAT to it to get the correct address
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M-1" << std::endl;
+
+                // Get value from the global stack, store it into R13
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Get THAT segment index, store it into R14
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add THAT To R14 to get the correct address
+                std::cout << "@THAT" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=M+D" << std::endl; // Now R14 is pointing to that + Index
+
+                // Get value from R13, and store it into the address marked at R14
+                std::cout << "@R13" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "A=M" << std::endl; // Pointing to Segment + index
+                std::cout << "M=D" << std::endl;
+            }
+            // Temp segment
+            else if (parser.arg1() == "temp")
+            {
+                // R13 Will contain the value to pop into the segement
+                // R14 Will contain the segment index, then we'll add Temp to it to get the correct address
+
+                // Decrement SP
+                std::cout << "@SP" << std::endl;
+                std::cout << "M=M-1" << std::endl;
+
+                // Get value from the global stack, store it into R13
+                std::cout << "@SP" << std::endl;
+                std::cout << "A=M" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R13" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Get Temp segment index, store it into R14
+                std::cout << "@" << parser.arg2() << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=D" << std::endl;
+
+                // Add Temp To R14 to get the correct address
+                std::cout << "@5" << std::endl;
+                std::cout << "D=A" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "M=M+D" << std::endl; // Now R14 is pointing to Temp + Index
+
+                // Get value from R13, and store it into the address marked at R14
+                std::cout << "@R13" << std::endl;
+                std::cout << "D=M" << std::endl;
+                std::cout << "@R14" << std::endl;
+                std::cout << "A=M" << std::endl; // Pointing to Segment + index
+                std::cout << "M=D" << std::endl;
             }
         }
         // ARITHMETIC
