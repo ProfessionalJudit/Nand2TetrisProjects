@@ -7,4 +7,6 @@ It should be understandable enough, if you've done the course you already know w
 
 ## Project Specific Stuff
 ### Assembler
-To use just compile main.cpp, and pass the route to an asm file as an argument, a file called output.hack will be created with your ✨fancy✨ machine code.
+To use just compile main.cpp, and pass the route to a asm file as an argument, a file called output.hack will be created with your ✨fancy✨ machine code.
+### Chapter 7 VM
+To use just compile main.cpp, and pass the route to a vm file as an argument, since the fully finished code is suposed to be in chapter 8, this doesen't genrate an output file, instead it prints the generated asm to the terminal, it was a little easier to test like this.
