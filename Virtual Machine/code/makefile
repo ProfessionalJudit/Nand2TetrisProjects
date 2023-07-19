@@ -1,3 +1,3 @@
 compile:
 	g++ main.cpp
-	./a.exe ../MemoryAccess/BasicTest/BasicTest.vm
+	./a.exe ../MemoryAccess/StaticTest/StaticTest.vm
